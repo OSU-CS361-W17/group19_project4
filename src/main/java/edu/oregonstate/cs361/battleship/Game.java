@@ -1,7 +1,5 @@
 package edu.oregonstate.cs361.battleship;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -135,7 +133,7 @@ public class Game {
         }
     }
 
-    private boolean isValidLocation(BattleshipModel model, int row, int col, String orientation, int length, boolean isPlayer)//Needs to check to see if a given coordiante is valid for the ship to be placed at.  OTHER PARAMS MAY BE NEEDED
+    public boolean isValidLocation(BattleshipModel model, int row, int col, String orientation, int length, boolean isPlayer)//Needs to check to see if a given coordiante is valid for the ship to be placed at.  OTHER PARAMS MAY BE NEEDED
     {
         if(isPlayer)
         {
@@ -373,12 +371,6 @@ public class Game {
     //This controller should take a json object from the front end, and place the ship as requested, and then return the object.
     public void placeShip(BattleshipModel model, Coord coord, String orientation, String id) {
 
-
-        //------------------------------Parsing and execution of the player's turn
-        if(model == null){
-            model = new BattleshipModel();
-        }
-        Gson gson = new Gson();
         //declares variables for the details specified for the ship
 
         if(model.isHard())
@@ -456,8 +448,6 @@ public class Game {
 
 
     public BattleshipModel fireAt(BattleshipModel model, Coord shot){
-
-
         if(checkPlayerShot(model, shot)) {
 
             //Execute player shot

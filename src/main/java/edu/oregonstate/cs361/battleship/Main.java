@@ -3,9 +3,7 @@ package edu.oregonstate.cs361.battleship;
 import com.google.gson.Gson;
 import spark.Request;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.staticFiles;
+import static spark.Spark.*;
 
 public class Main {
 

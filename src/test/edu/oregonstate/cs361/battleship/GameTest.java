@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,6 +26,23 @@ class GameTest {
     // by the player OR the AI reaches the maximum number of hits for their respective board. IE: all ships for
     // that board have been sunk.
     //This covers the fire user story, the AI user story, the place ships user story, and the win condition user story
+
+
+    @Test
+    public void testValidLocation()
+    {
+        BattleshipModel model = new BattleshipModel();
+        new Game();
+
+        assertEquals(true, game.isValidLocation(model, 3,3,"vertical",3,true));
+        assertEquals(true, game.isValidLocation(model, 3,3,"vertical",3,false));
+
+        assertEquals(true, game.isValidLocation(model, 8,3,"vertical",3,true));
+        assertEquals(true, game.isValidLocation(model, 8,3,"vertical",3,false));
+
+        assertEquals(false, game.isValidLocation(model, 9,3,"vertical",3,true));
+        assertEquals(false, game.isValidLocation(model, 9,3,"vertical",3,false));
+    }
 
     @Test
     public void gameOverTest() {
@@ -93,13 +111,32 @@ class GameTest {
     @Test
     public void testDoFire() {
         BattleshipModel model = new BattleshipModel();
-        Coord shot = new Coord(1, 1);
-        Gson gson = new Gson();
-        Ship AC = new Ship("AircraftCarrier", 5, 1, 2, 1, 7);
 
-        model.setAircraftCarrier(AC);
+        game.placeShip(model,new Coord(1,2),"vertical","aircraftCarrier");
 
         game.prepFire(model, new Coord(1, 1));
+
+        assertEquals(0,model.get_computer_hits().size());
+        assertEquals(1,model.get_computer_misses().size());
+
+        game.prepFire(model, new Coord(1, 2));
+
+        assertEquals(1,model.get_computer_hits().size());
+        assertEquals(1,model.get_computer_misses().size());
+
+        assertEquals(2,model.get_player_hits().size()+model.get_player_misses().size());
+
+        model = new BattleshipModel();
+        model.setDifficulty(true);
+
+        game.placeShip(model,new Coord(1,2),"vertical","aircraftCarrier");
+
+        game.prepFire(model, new Coord(1, 1));
+
+        game.prepFire(model, new Coord(2, 1));
+
+        assertEquals(2,model.get_player_hits().size()+model.get_player_misses().size());
+
 
     }
 
@@ -107,10 +144,31 @@ class GameTest {
     //This just makes sure the change is made, we know it displays "W" "L" on the boards
     @Test
     public void testGameCompleteDraw() {
-        BattleshipModel test = new BattleshipModel();
         BattleshipModel model = new BattleshipModel();
         game.game_complete(model, true);
         game.game_complete(model, false);
+    }
+
+    @Test
+    public void testHardFire()
+    {
+        Random rand = new Random(System.currentTimeMillis());
+        Coord shot = null;
+        int properShotCount = 0;
+        BattleshipModel model = new BattleshipModel();
+        model.setDifficulty(true);
+        game.placeShip(model,new Coord(1,2),"vertical","aircraftCarrier");
+
+        for (int i = 0; i < 99; i ++)
+        {
+            game.prepFire(model,new Coord(rand.nextInt(11),rand.nextInt(11)));
+            if(model.getAIShot() != shot && model.getAIShot() != null)
+                properShotCount ++;
+            shot = model.getAIShot();
+
+        }
+
+        assertEquals(properShotCount, model.get_player_hits().size());
     }
 
 }
