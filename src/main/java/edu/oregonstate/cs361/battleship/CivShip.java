@@ -1,5 +1,4 @@
 package edu.oregonstate.cs361.battleship;
-import spark.Request;
 
 /**
  * Created by MarkSprouse on 3/1/2017.

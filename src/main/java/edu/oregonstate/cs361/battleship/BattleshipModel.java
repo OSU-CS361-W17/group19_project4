@@ -1,13 +1,6 @@
 package edu.oregonstate.cs361.battleship;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 
 /**

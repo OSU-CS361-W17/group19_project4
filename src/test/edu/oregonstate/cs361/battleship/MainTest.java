@@ -74,7 +74,7 @@ class MainTest {
 
         assertEquals(false, model.isHard());
 
-        res = request("POST", "/difficultySelect/easy");
+        res = request("POST", "/difficultySelect/hard");
         assertEquals(200, res.status);
 
         model = gson.fromJson(res.body, BattleshipModel.class);
